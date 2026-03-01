@@ -61,40 +61,28 @@ fun LoginContainer() {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    // 2. Logic: Validation
-    val isEmailValid = email.contains("@") && email.endsWith(".com")
+    val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     val isPasswordValid = password.length >= 6
-    val isFormFilled = email.isNotBlank() && password.isNotBlank()
+    val isLoginEnabled = isEmailValid && isPasswordValid
 
     LoginScreen(
         email = email,
         password = password,
-        // 2. Button is enabled only if fields are not empty
-        isLoginEnabled = isFormFilled,
+        isLoginEnabled = isLoginEnabled,
         onEmailChange = { email = it },
         onPasswordChange = { password = it },
         onLoginClick = {
             scope.launch {
-                // 3. Validate credentials on click
-                if (isEmailValid && isPasswordValid) {
-                    snackbarHostState.showSnackbar(
-                        message = "Logging in as $email...",
-                        actionLabel = "Dismiss",
-                        withDismissAction = true
-                    )
-                } else {
-                    snackbarHostState.showSnackbar(
-                        message = "Invalid credentials",
-                        actionLabel = "Retry",
-                        withDismissAction = true
-                    )
-                }
+                snackbarHostState.showSnackbar(
+                    message = if (isLoginEnabled) "Logging in as $email..." else "Invalid credentials",
+                    actionLabel = if (isLoginEnabled) "Dismiss" else "Retry",
+                    withDismissAction = true
+                )
             }
         },
         snackbarHostState = snackbarHostState
     )
 }
-
 @Composable
 fun LoginScreen(
         email: String,
