@@ -24,6 +24,7 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.androidx.room.runtime)
