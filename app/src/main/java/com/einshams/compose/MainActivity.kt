@@ -61,21 +61,29 @@ fun LoginContainer() {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
+    // 1. Validation Logic
     val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     val isPasswordValid = password.length >= 6
+
+    // Determine when to show errors (don't show errors if the field is empty)
+    val emailError = if (email.isNotEmpty() && !isEmailValid) "Invalid email format" else null
+    val passwordError = if (password.isNotEmpty() && !isPasswordValid) "Password must be at least 6 characters" else null
+
+    // Button is only enabled if both are valid and not empty
     val isLoginEnabled = isEmailValid && isPasswordValid
 
     LoginScreen(
         email = email,
         password = password,
+        emailError = emailError,      // Pass error message
+        passwordError = passwordError, // Pass error message
         isLoginEnabled = isLoginEnabled,
         onEmailChange = { email = it },
         onPasswordChange = { password = it },
         onLoginClick = {
             scope.launch {
                 snackbarHostState.showSnackbar(
-                    message = if (isLoginEnabled) "Logging in as $email..." else "Invalid credentials",
-                    actionLabel = if (isLoginEnabled) "Dismiss" else "Retry",
+                    message = "Logging in as $email...",
                     withDismissAction = true
                 )
             }
@@ -83,10 +91,13 @@ fun LoginContainer() {
         snackbarHostState = snackbarHostState
     )
 }
+
 @Composable
 fun LoginScreen(
         email: String,
         password: String,
+        emailError: String?,      // Null means no error
+        passwordError: String?,   // Null means no error
         isLoginEnabled: Boolean,
         onEmailChange: (String) -> Unit,
         onPasswordChange: (String) -> Unit,
@@ -105,33 +116,49 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // --- Email Field ---
             TextField(
                 value = email,
                 onValueChange = onEmailChange,
                 label = { Text("Email") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
+                isError = emailError != null, // Highlights field in red
+                supportingText = {
+                    if (emailError != null) {
+                        Text(text = emailError, color = MaterialTheme.colorScheme.error)
+                    }
+                }
             )
+
             Spacer(modifier = Modifier.height(8.dp))
+
+            // --- Password Field ---
             TextField(
                 value = password,
                 onValueChange = onPasswordChange,
                 label = { Text("Password") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
-                // 1. Masking the password
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = Password,
                     imeAction = Done
-                )
+                ),
+                isError = passwordError != null, // Highlights field in red
+                supportingText = {
+                    if (passwordError != null) {
+                        Text(text = passwordError, color = MaterialTheme.colorScheme.error)
+                    }
+                }
             )
-            Spacer(modifier = Modifier.height(16.dp))
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = onLoginClick,
-                // 2. Disable button if fields are empty
-                enabled = isLoginEnabled
+                enabled = isLoginEnabled,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Login")
             }
@@ -144,12 +171,14 @@ fun LoginScreen(
 
 @Preview(showBackground = true, name = "Filled Login")
 @Composable
-fun PreviewLoginFilled() {
+fun PreviewLoginError() {
     LoginScreen(
-        email = "test@me.com",
-        password = "password123",
-        isLoginEnabled = true,
-        onEmailChange = {}, // No-op: The preview doesn't need to actually update
+        email = "wrong-email",
+        password = "123",
+        emailError = "Invalid email format",
+        passwordError = "Too short",
+        isLoginEnabled = false,
+        onEmailChange = {},
         onPasswordChange = {},
         onLoginClick = {},
         snackbarHostState = remember { SnackbarHostState() }
