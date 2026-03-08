@@ -18,12 +18,12 @@ fun LoginRoute(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
+// Handling One-Time Events (Side Effects)
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
                 is UiEffect.Navigate -> onLoggedIn()
-                else -> Unit
+                else -> Unit  // means do nothing
             }
         }
     }
