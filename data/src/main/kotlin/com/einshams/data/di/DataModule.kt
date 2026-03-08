@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -24,14 +25,25 @@ interface DataModule {
         @Provides
         @Singleton
         fun provideOkHttpClient(): OkHttpClient {
-            return OkHttpClient.Builder().build()
+            val logging = HttpLoggingInterceptor().apply {
+                level = if (com.einshams.data.BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor.Level.BODY
+                } else {
+                    HttpLoggingInterceptor.Level.NONE
+                }
+            }
+
+            return OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .build()
         }
 
         @Provides
         @Singleton
         fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
             return Retrofit.Builder()
-                .baseUrl("https://reqres.in/api/")
+                // reqres.in is often blocked by Cloudflare for mobile clients.
+                .baseUrl("https://dummyjson.com/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

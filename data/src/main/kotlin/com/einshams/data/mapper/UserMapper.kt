@@ -1,10 +1,10 @@
 package com.einshams.data.mapper
 
 import com.einshams.data.remote.dto.UserDto
-import com.einshams.data.remote.dto.RemoteUserDto
+import com.einshams.data.remote.dto.DummyLoginResponseDto
 import com.einshams.domain.model.User
 
-fun RemoteUserDto.toUserDto(): UserDto {
+fun DummyLoginResponseDto.toUserDto(): UserDto {
     return UserDto(
         remoteId = id.toString(),
         displayName = "$firstName $lastName",

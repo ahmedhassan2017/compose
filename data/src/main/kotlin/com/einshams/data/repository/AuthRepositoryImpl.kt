@@ -17,19 +17,8 @@ class AuthRepositoryImpl(
             if (!loginResponse.isSuccessful) {
                 throw IllegalStateException("Login failed with code ${loginResponse.code()}")
             }
-            val token = loginResponse.body()?.token
-            if (token.isNullOrBlank()) {
-                throw IllegalStateException("Login token is empty")
-            }
-
-            val userResponse = authApi.getLoggedInUser()
-            if (!userResponse.isSuccessful) {
-                throw IllegalStateException("Fetch user failed with code ${userResponse.code()}")
-            }
-            val userDto = userResponse.body()?.data?.toUserDto()
-                ?: throw IllegalStateException("User payload is empty")
-
-            userDto.toDomain()
+            val body = loginResponse.body() ?: throw IllegalStateException("Login response body is empty")
+            body.toUserDto().toDomain()
         }
     }
 }
