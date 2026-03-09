@@ -22,6 +22,7 @@ class LoginViewModel @Inject constructor(
     fun login() {
         val (email, password) = state.value.data
         launchWithState {
+
             val result = loginUseCase(email = email, password = password)
             result.fold(
                 onSuccess = { user ->
