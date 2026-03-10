@@ -1,23 +1,19 @@
 package com.einshams.compose
 
-// snackbar with a message and a dismiss button
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.einshams.compose.navigation.AppNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity()
-{
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            AppNavHost()
         }
     }
 }
-
-
-
-
-
