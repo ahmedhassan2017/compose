@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Stylised <lp> mascara-lash logo.
+    Viewport: 280 × 160
+    Silver metallic tone: #BFC0CC  highlight: #E4E5EF  shadow: #7A7B88
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="280dp"
+    android:height="160dp"
+    android:viewportWidth="280"
+    android:viewportHeight="160">
+
+    <!-- ── Left  <  chevron ───────────────────────────────────────────── -->
+    <path
+        android:pathData="M 105,22 L 72,80 L 105,138"
+        android:fillColor="#00000000"
+        android:strokeColor="#C8C9D6"
+        android:strokeWidth="9"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- ── Right  >  chevron ─────────────────────────────────────────── -->
+    <path
+        android:pathData="M 175,22 L 208,80 L 175,138"
+        android:fillColor="#00000000"
+        android:strokeColor="#C8C9D6"
+        android:strokeWidth="9"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- ── l  – vertical descending stroke ───────────────────────────── -->
+<!--    <path-->
+<!--        android:pathData="M 126,16 L 126,148"-->
+<!--        android:fillColor="#00000000"-->
+<!--        android:strokeColor="#C8C9D6"-->
+<!--        android:strokeWidth="8"-->
+<!--        android:strokeLineCap="round" />-->
+
+    <!-- ── p  – rounded loop (right half-oval) ──────────────────────── -->
+<!--    <path-->
+<!--        android:pathData="M 126,72 C 126,52 188,50 188,80 C 188,110 126,108 126,90"-->
+<!--        android:fillColor="#00000000"-->
+<!--        android:strokeColor="#C8C9D6"-->
+<!--        android:strokeWidth="8"-->
+<!--        android:strokeLineCap="round"-->
+<!--        android:strokeLineJoin="round" />-->
+
+    <!-- ── Lash / mascara-wand swoosh  (upper-right) ─────────────────── -->
+    <!-- main sweep -->
+<!--    <path-->
+<!--        android:pathData="M 200,20 C 218,8 242,14 255,6 C 264,2 272,8 272,18"-->
+<!--        android:fillColor="#00000000"-->
+<!--        android:strokeColor="#C8C9D6"-->
+<!--        android:strokeWidth="6.5"-->
+<!--        android:strokeLineCap="round"-->
+<!--        android:strokeLineJoin="round" />-->
+
+    <!-- secondary lash stroke (slight parallel curve for depth) -->
+<!--    <path-->
+<!--        android:pathData="M 204,30 C 220,20 238,26 248,20"-->
+<!--        android:fillColor="#00000000"-->
+<!--        android:strokeColor="#9A9BAA"-->
+<!--        android:strokeWidth="4"-->
+<!--        android:strokeLineCap="round" />-->
+
+</vector>
