@@ -1,8 +1,11 @@
 package com.einshams.data.di
 
 import com.einshams.data.remote.api.AuthApi
+import com.einshams.data.remote.api.HomeApi
 import com.einshams.data.repository.AuthRepositoryImpl
+import com.einshams.data.repository.HomeRepositoryImpl
 import com.einshams.domain.repository.AuthRepository
+import com.einshams.domain.repository.HomeRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,6 +23,10 @@ interface DataModule {
     @Binds
     @Singleton
     fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    @Singleton
+    fun bindHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
 
     companion object {
         @Provides
@@ -59,6 +66,18 @@ interface DataModule {
         @Singleton
         fun provideAuthRepositoryImpl(authApi: AuthApi): AuthRepositoryImpl {
             return AuthRepositoryImpl(authApi)
+        }
+
+        @Provides
+        @Singleton
+        fun provideHomeApi(retrofit: Retrofit): HomeApi {
+            return retrofit.create(HomeApi::class.java)
+        }
+
+        @Provides
+        @Singleton
+        fun provideHomeRepositoryImpl(homeApi: HomeApi): HomeRepositoryImpl {
+            return HomeRepositoryImpl(homeApi)
         }
     }
 }

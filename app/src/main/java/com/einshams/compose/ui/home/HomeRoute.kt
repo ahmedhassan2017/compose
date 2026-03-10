@@ -1,24 +1,22 @@
 package com.einshams.compose.ui.home
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun HomeRoute(
-    onOpenDetails: (String) -> Unit
+    onOpenDetails: (String) -> Unit,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = "Home")
-        Button(onClick = { onOpenDetails("123") }) {
-            Text(text = "Open Details/123")
-        }
-    }
+    val state by viewModel.state.collectAsState()
+
+    HomeScreen(
+        isLoading    = state.isLoading,
+        items        = state.data.items,
+        errorMessage = state.error?.message,
+        onItemClick  = onOpenDetails,
+        onRetry      = viewModel::loadItems
+    )
 }
